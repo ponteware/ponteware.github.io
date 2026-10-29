@@ -1,571 +1,393 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ponteware Software | Soluções Tecnológicas e Licenciamento</title>
-  
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#f0f7ff',
-              100: '#e0effe',
-              500: '#0284c7',
-              600: '#0369a1',
-              700: '#075985',
-              800: '#0c4a6e',
-              900: '#082f49',
-              accent: '#06b6d4',
-            }
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de atendimento ao Paciente</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* --- CORES ATUALIZADAS --- */
+            --primary-blue-dark: #1e88e5; /* Azul mais escuro */
+            --primary-blue: #64b5f6;      /* Azul claro principal */
+            /* --- FIM DAS CORES ATUALIZADAS --- */
+
+            --whatsapp-green: #25D366;    /* Mantido */
+            --light-gray: #f8f9fa;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
         }
-      }
-    }
-  </script>
 
-  <style>
-    /* Custom subtle grid background */
-    .tech-grid {
-      background-image: radial-gradient(rgba(14, 165, 233, 0.15) 1px, transparent 1px);
-      background-size: 28px 28px;
-    }
-  </style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: var(--text-primary);
+        }
+
+        /* --- Animações --- */
+        .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-15px); } 60% { transform: translateY(-5px); } }
+        @keyframes whatsapp-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+            80% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        /* --- Navbar --- */
+        .navbar { transition: all 0.4s ease-out; }
+        .navbar.scrolled { background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        .nav-link { font-weight: 500; }
+        .navbar-brand { color: var(--primary-blue-dark) !important; /* Ajuste para o azul escuro */ }
+        .btn-nav-cta {
+            background-color: var(--primary-blue); /* Azul claro */
+            color: white; border-radius: 50px; padding: 8px 25px; transition: all 0.3s; font-weight: 500;
+        }
+        .btn-nav-cta:hover {
+            background-color: var(--primary-blue-dark); /* Azul escuro */
+            color: white; transform: scale(1.05);
+        }
+
+        /* --- Hero Section --- */
+        .hero-section {
+            position: relative;
+            height: 90vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; color: white;
+            background-image: url('https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+            background-size: cover; background-position: center;
+        }
+        .hero-section::before { /* Overlay azul */
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(30, 136, 229, 0.75); /* Azul escuro com transparência */
+            z-index: 2;
+        }
+        .hero-content { position: relative; z-index: 3; animation: 1s fadeInUp ease-out; }
+        .hero-content h1 { font-weight: 700; font-size: 3.5rem; }
+        .hero-content p { font-size: 1.25rem; font-weight: 400; max-width: 650px; margin: 20px auto; }
+        .scroll-indicator {
+            position: absolute; bottom: 30px; z-index: 3;
+            font-size: 1.5rem; animation: 1.5s infinite bounce;
+        }
+
+        /* --- Seções e Títulos --- */
+        section { padding: 80px 0; }
+        .section-title { font-weight: 700; color: var(--primary-blue-dark); /* Títulos em azul escuro */ }
+        .section-subtitle { font-size: 1.1rem; max-width: 600px; margin: 15px auto; }
+
+        /* --- BOTÕES PRIMÁRIOS COM ESTILO "CLIQUE AQUI" --- */
+        .primary-actions-section { padding-top: 0; margin-top: -80px; position: relative; z-index: 10; }
+        .primary-action-btn {
+            background-color: white; color: var(--text-primary); text-decoration: none;
+            display: flex; align-items: center; padding: 1.5rem; border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: all 0.3s ease;
+        }
+        .primary-action-btn:hover {
+            transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            color: var(--primary-blue); /* Texto fica azul claro no hover */
+        }
+        .primary-action-btn .icon {
+            font-size: 2.5rem; margin-right: 1.25rem;
+            color: var(--primary-blue); /* Ícone em azul claro */
+        }
+        .primary-action-btn .text-content { flex-grow: 1; }
+        .primary-action-btn h4 { font-size: 1.2rem; font-weight: 600; }
+        .primary-action-btn .arrow-icon {
+            font-size: 1.8rem;
+            color: var(--primary-blue); /* Seta em azul claro */
+            opacity: 0.5; transition: all 0.3s ease;
+        }
+        .primary-action-btn:hover .arrow-icon {
+            opacity: 1; transform: translateX(5px);
+        }
+
+        /* --- Como Funciona --- */
+        .how-it-works-section { background-color: var(--light-gray); }
+        .step-card { text-align: center; }
+        .step-icon {
+            width: 80px; height: 80px; background-color: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.5rem auto; font-size: 2rem;
+            color: var(--primary-blue); /* Ícone do passo em azul claro */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        /* Para o número 1, que não é ícone */
+        .step-icon:not(:has(i)) {
+            background-color: var(--primary-blue); /* Fundo azul claro */
+            color: white; /* Número branco */
+        }
+
+        /* --- Seção de Confiança --- */
+        .trust-section {
+            background-color: var(--primary-blue-dark); /* Fundo azul escuro */
+            color: white;
+        }
+        .trust-section .section-title { color: white; } /* Título branco */
+        .trust-section .icon {
+            font-size: 3rem;
+            color: var(--primary-blue); /* Ícones em azul claro para contraste */
+        }
+        .trust-section h4 { color: white; } /* Subtítulos brancos */
+        .trust-section p { color: rgba(255, 255, 255, 0.8); } /* Texto um pouco transparente */
+
+        /* --- CTA Final --- */
+        .cta-section { background-color: var(--light-gray); }
+        .btn-cta-final {
+            background-color: var(--primary-blue); /* Azul claro */
+            color: white; border-radius: 50px; padding: 15px 40px; font-weight: 600; font-size: 1.2rem;
+        }
+        .btn-cta-final:hover {
+            background-color: var(--primary-blue-dark); /* Azul escuro */
+        }
+
+        /* --- Footer --- */
+        .footer { background-color: white; border-top: 1px solid #dee2e6; }
+        .footer a { text-decoration: none; color: var(--text-secondary); }
+
+        /* --- Banner de Cookies --- */
+        .cookie-banner {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--primary-blue-dark); /* Fundo azul escuro */
+            color: white; padding: 1rem; z-index: 1050;
+            transition: transform 0.5s ease-in-out; transform: translateY(120%);
+        }
+        .cookie-banner.show { transform: translateY(0); }
+        .cookie-banner a { color: #b3e5fc; /* Azul bem claro para link */ text-decoration: underline;}
+
+        /* --- BOTÃO FLUTUANTE WHATSAPP --- */
+        #whatsapp-button {
+            position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px;
+            background-color: var(--whatsapp-green); /* Mantido verde */
+            color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 999;
+            text-decoration: none; transition: all 0.4s ease; opacity: 0; transform: scale(0);
+            animation: whatsapp-pulse 2s infinite 2s;
+        }
+        #whatsapp-button.visible { opacity: 1; transform: scale(1); }
+        #whatsapp-button:hover {
+            transform: scale(1.1); box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            animation-play-state: paused;
+        }
+
+        /* --- AJUSTES PARA DISPOSITIVOS MÓVEIS --- */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { font-size: 1.1rem; }
+            .hero-section { height: 85vh; }
+            section { padding: 60px 0; }
+            .primary-actions-section { margin-top: -60px; }
+            .primary-action-btn h4 { font-size: 1.1rem; }
+            .section-title { font-size: 1.8rem; }
+            .step-card { margin-bottom: 2rem; }
+        }
+    </style>
 </head>
+<body>
 
-<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white">
-
-  <!-- ==================== HEADER / NAVBAR ==================== -->
-  <header class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 transition-all duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      <!-- Logo -->
-      <a href="#" class="flex items-center gap-3 group">
-        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-900 to-brand-500 flex items-center justify-center text-white shadow-md shadow-brand-500/20 group-hover:scale-105 transition-transform">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-          </svg>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-shield-check me-2"></i>Central de Atendimento
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link mx-2" href="#comofunciona">Como Funciona</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="#seguranca">Segurança</a></li>
+                    <li class="nav-item ms-3"><a class="btn btn-nav-cta" href="#acoes">Iniciar Atendimento</a></li>
+                </ul>
+            </div>
         </div>
-        <div>
-          <span class="text-xl font-extrabold tracking-tight text-slate-900 block leading-tight">PONTEWARE</span>
-          <span class="text-xs font-semibold text-brand-600 tracking-wider uppercase block">Software</span>
+    </nav>
+
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1 class="display-3">Sua tranquilidade financeira, descomplicada.</h1>
+            <p>Resolva suas pendências do plano de saúde de forma rápida, segura e humana, diretamente pelo WhatsApp.</p>
         </div>
-      </a>
+        <div class="scroll-indicator text-white"><i class="bi bi-mouse"></i></div>
+    </header>
 
-      <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-        <a href="#inicio" class="hover:text-brand-600 transition-colors">Início</a>
-        <a href="#quem-somos" class="hover:text-brand-600 transition-colors">Quem Somos</a>
-        <a href="#servicos" class="hover:text-brand-600 transition-colors">Serviços</a>
-        <a href="#privacidade" class="hover:text-brand-600 transition-colors">Privacidade</a>
-        <a href="#contato" class="px-5 py-2.5 rounded-lg bg-brand-600 text-white font-semibold hover:bg-brand-700 shadow-sm shadow-brand-600/30 transition-all hover:shadow-md">
-          Fale Conosco
-        </a>
-      </nav>
+    <main>
+        <section id="acoes" class="primary-actions-section fade-in-section">
+            <div class="container">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-lg-5 col-md-6">
+                        <a href="https://wa.me/5522920007276?text=Ol%C3%A1!%20Gostaria%20de%20regularizar%20uma%20mensalidade%20em%20atraso." target="_blank" class="primary-action-btn">
+                            <div class="icon"><i class="bi bi-shield-check"></i></div>
+                            <div class="text-content">
+                                <h4 class="mb-0">Mensalidades em Atraso</h4>
+                                <p class="mb-0 small text-secondary">Negocie com condições especiais</p>
+                            </div>
+                            <div class="arrow-icon ms-auto"><i class="bi bi-arrow-right-circle-fill"></i></div>
+                        </a>
+                    </div>
+                    <div class="col-lg-5 col-md-6">
+                         <a href="https://wa.me/5522920007276?text=Ol%C3%A1!%20Gostaria%20de%20falar%20com%20um%20atendente." target="_blank" class="primary-action-btn">
+                            <div class="icon"><i class="bi bi-headset"></i></div>
+                            <div class="text-content">
+                                <h4 class="mb-0">Fale Conosco</h4>
+                                <p class="mb-0 small text-secondary">2ª via, dúvidas e suporte</p>
+                            </div>
+                            <div class="arrow-icon ms-auto"><i class="bi bi-arrow-right-circle-fill"></i></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-      <!-- Mobile Menu Toggle Button -->
-      <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors" aria-label="Abrir Menu">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
+        <section id="comofunciona" class="how-it-works-section fade-in-section">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">É simples, rápido e humano</h2>
+                    <p class="section-subtitle text-secondary">Em apenas 3 passos, sua situação está resolvida.</p>
+                </div>
+                <div class="row g-5">
+                    <div class="col-md-4 step-card">
+                        <div class="step-icon">1</div>
+                        <h4 class="fw-bold">Escolha o Serviço</h4>
+                        <p class="text-secondary">Clique na opção que você precisa: negociação ou suporte geral.</p>
+                    </div>
+                    <div class="col-md-4 step-card">
+                        <div class="step-icon"><i class="bi bi-whatsapp"></i></div>
+                        <h4 class="fw-bold">Converse no WhatsApp</h4>
+                        <p class="text-secondary">Você será direcionado para um de nossos especialistas, sem robôs ou esperas.</p>
+                    </div>
+                    <div class="col-md-4 step-card">
+                        <div class="step-icon"><i class="bi bi-check2-circle"></i></div>
+                        <h4 class="fw-bold">Resolvido!</h4>
+                        <p class="text-secondary">Receba seu boleto ou as condições de negociação e finalize tudo na hora.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="seguranca" class="trust-section fade-in-section">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title text-white">Sua segurança em primeiro lugar</h2>
+                </div>
+                <div class="row g-5 text-center">
+                    <div class="col-md-4">
+                        <div class="icon mb-3"><i class="bi bi-lock"></i></div>
+                        <h4 class="fw-bold">Dados Protegidos</h4>
+                        <p>Utilizamos criptografia de ponta para garantir a segurança de suas informações.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="icon mb-3"><i class="bi bi-people"></i></div>
+                        <h4 class="fw-bold">Atendimento Humano</h4>
+                        <p>Nossa equipe está preparada para entender seu caso e oferecer a melhor solução.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="icon mb-3"><i class="bi bi-phone"></i></div>
+                        <h4 class="fw-bold">Praticidade Total</h4>
+                        <p>Resolva tudo pelo celular, de onde estiver, sem precisar de ligações ou papéis.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section text-center fade-in-section">
+            <div class="container">
+                <h2 class="section-title">Precisa de outro tipo de ajuda?</h2>
+                <p class="section-subtitle text-secondary">Nossa equipe de suporte geral está pronta para te atender. Clique abaixo e fale conosco.</p>
+                 <a href="https://wa.me/5522920007276?text=Ol%C3%A1!%20Preciso%20de%20ajuda." target="_blank" class="btn btn-cta-final shadow">Falar com Atendente</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer py-4">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <p class="mb-2 mb-md-0">&copy; 2025 Central de Atendimento. Todos os direitos reservados.</p>
+             <a href="politica-de-privacidade.html" class="small">Política de Privacidade</a>
+        </div>
+    </footer>
+
+     <a href="https://wa.me/5522920007276?text=Ol%C3%A1!%20Gostaria%20de%20falar%20com%20um%20atendente."
+       id="whatsapp-button"
+       target="_blank"
+       aria-label="Fale conosco pelo WhatsApp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+
+    <div class="cookie-banner" id="cookie-banner">
+        <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
+            <p class="mb-2 mb-md-0 me-md-4">Usamos cookies para otimizar sua experiência. Ao continuar, você concorda com nossa <a href="politica-de-privacidade.html">Política de Privacidade</a>.</p>
+            <button id="accept-cookies" class="btn btn-sm btn-light flex-shrink-0">Entendi</button>
+        </div>
     </div>
 
-    <!-- Mobile Dropdown Menu -->
-    <div id="mobile-menu" class="hidden md:hidden border-b border-slate-200 bg-white px-4 pt-2 pb-6 space-y-3">
-      <a href="#inicio" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Início</a>
-      <a href="#quem-somos" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Quem Somos</a>
-      <a href="#servicos" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Serviços</a>
-      <a href="#privacidade" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Privacidade</a>
-      <a href="#contato" class="block text-center mt-3 px-4 py-2.5 rounded-lg bg-brand-600 text-white font-semibold hover:bg-brand-700">Fale Conosco</a>
-    </div>
-  </header>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mesmo JavaScript da versão anterior (sem mudanças)
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbar = document.querySelector('.navbar');
+            const whatsappButton = document.getElementById('whatsapp-button');
 
-  <main class="pt-20">
-    <!-- ==================== HERO SECTION ==================== -->
-    <section id="inicio" class="relative overflow-hidden tech-grid py-20 lg:py-32 bg-gradient-to-b from-brand-50/50 via-white to-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid lg:grid-cols-12 gap-12 items-center">
-          
-          <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <!-- Badges -->
-            <div class="inline-flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-brand-700 text-xs font-semibold">
-              <span class="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>Desde 1994</span>
-              <span class="text-slate-300">|</span>
-              <span>Mais de 30 Anos de Excelência em Software</span>
-            </div>
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
 
-            <!-- Headline -->
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
-              Tecnologia sólida para impulsionar a <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-cyan-500">eficiência corporativa</span>.
-            </h1>
+                if (window.scrollY > 300) {
+                    whatsappButton.classList.add('visible');
+                } else {
+                    whatsappButton.classList.remove('visible');
+                }
+            });
 
-            <p class="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-              A <strong>Ponteware Software</strong> desenvolve e licencia soluções em tecnologia da informação com confiabilidade, arquitetura madura e alto desempenho operacional para empresas.
-            </p>
+            const sections = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            sections.forEach(section => observer.observe(section));
 
-            <!-- Buttons -->
-            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-              <a href="#servicos" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-center shadow-lg shadow-brand-500/25 transition-all">
-                Conheça Nossos Serviços
-              </a>
-              <a href="#quem-somos" class="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-slate-300 hover:border-brand-500 hover:text-brand-600 text-slate-700 font-semibold text-center bg-white transition-all">
-                Nossa História
-              </a>
-            </div>
+            (function() {
+                const cookieBanner = document.getElementById('cookie-banner');
+                const acceptButton = document.getElementById('accept-cookies');
 
-            <!-- Quick Metrics -->
-            <div class="grid grid-cols-3 gap-4 pt-8 border-t border-slate-200 text-center lg:text-left">
-              <div>
-                <p class="text-2xl font-bold text-slate-900">30+ Anos</p>
-                <p class="text-xs text-slate-500 font-medium">De Mercado</p>
-              </div>
-              <div>
-                <p class="text-2xl font-bold text-slate-900">100%</p>
-                <p class="text-xs text-slate-500 font-medium">Situação Ativa</p>
-              </div>
-              <div>
-                <p class="text-2xl font-bold text-slate-900">Belo Horizonte</p>
-                <p class="text-xs text-slate-500 font-medium">Sede Própria / MG</p>
-              </div>
-            </div>
-          </div>
+                if (localStorage.getItem('cookiesAccepted_v1') !== 'true') {
+                    setTimeout(() => { cookieBanner.classList.add('show'); }, 2000);
+                }
 
-          <!-- Hero Graphic Card -->
-          <div class="lg:col-span-5">
-            <div class="relative mx-auto max-w-md bg-gradient-to-tr from-brand-900 to-slate-900 p-8 rounded-3xl shadow-2xl text-white overflow-hidden border border-slate-800">
-              <div class="absolute -right-10 -bottom-10 w-44 h-44 bg-brand-500/20 rounded-full blur-2xl"></div>
-              
-              <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-700/60">
-                <span class="text-xs font-mono tracking-widest text-cyan-400 uppercase">Status Operacional</span>
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-950 text-emerald-300 border border-emerald-500/40">
-                  ATIVA
-                </span>
-              </div>
+                acceptButton.addEventListener('click', function() {
+                    localStorage.setItem('cookiesAccepted_v1', 'true');
+                    cookieBanner.classList.remove('show');
+                });
+            })();
 
-              <div class="space-y-4">
-                <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/50">
-                  <p class="text-xs text-slate-400">Atividade Principal (CNAE)</p>
-                  <p class="text-sm font-semibold text-slate-100 mt-1">Desenvolvimento e licenciamento de programas de computador não-customizáveis</p>
-                </div>
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(this.getAttribute('href'));
+                    if (targetElement) {
+                        // Calcula offset do header fixo
+                        const headerOffset = navbar.offsetHeight || 70;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-                <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/50">
-                  <p class="text-xs text-slate-400">Registro Fiscal</p>
-                  <p class="text-sm font-mono font-semibold text-slate-100 mt-1">CNPJ: 00.243.582/0001-37</p>
-                </div>
-
-                <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/50">
-                  <p class="text-xs text-slate-400">Fundação</p>
-                  <p class="text-sm font-semibold text-slate-100 mt-1">13 de Outubro de 1994 (30+ anos de experiência contínua)</p>
-                </div>
-              </div>
-
-              <div class="mt-6 pt-4 border-t border-slate-700/50 flex items-center justify-between text-xs text-slate-400">
-                <span>Padrão Corporativo</span>
-                <span>ISO & LGPD Compliance</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== QUEM SOMOS ==================== -->
-    <section id="quem-somos" class="py-20 bg-white border-t border-slate-200">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="max-w-3xl mx-auto text-center mb-16">
-          <h2 class="text-xs font-bold text-brand-600 uppercase tracking-widest">Sobre a Ponteware</h2>
-          <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">Tradição, Confiabilidade e Futuro</p>
-          <div class="w-16 h-1 bg-brand-600 mx-auto mt-4 rounded-full"></div>
-        </div>
-
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
-          <div class="space-y-6 text-slate-600 leading-relaxed text-base">
-            <p>
-              Fundada em <strong>13 de outubro de 1994</strong> em Belo Horizonte - Minas Gerais, a <strong>PONTEWARE INFORMÁTICA LTDA - ME</strong> construiu uma trajetória sólida de mais de três décadas de dedicação ininterrupta ao mercado de tecnologia.
-            </p>
-            <p>
-              Nossa vocação consiste em entregar soluções robustas de software prontas para uso corporativo, simplificando processos críticos, otimizando o fluxo de dados e promovendo a transformação digital de clientes em múltiplos segmentos.
-            </p>
-            <p>
-              A longevidade da Ponteware reflete nossa capacidade de adaptação às mudanças tecnológicas mundiais, mantendo sempre a transparência, conformidade fiscal e jurídica, e a responsabilidade com a continuidade dos negócios de nossos parceiros.
-            </p>
-            
-            <div class="pt-4 grid sm:grid-cols-2 gap-4">
-              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-                  <svg class="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                  Estabilidade Comprovada
-                </h3>
-                <p class="text-xs text-slate-500 mt-1">Sistemas testados e amadurecidos em ambientes de missão crítica.</p>
-              </div>
-              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-                  <svg class="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                  Atuação em BH e Brasil
-                </h3>
-                <p class="text-xs text-slate-500 mt-1">Atendimento personalizado com base no polo tecnológico mineiro.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Feature Cards / Values -->
-          <div class="grid sm:grid-cols-2 gap-6">
-            <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-300 transition-colors">
-              <div class="w-10 h-10 rounded-lg bg-blue-100 text-brand-700 flex items-center justify-center font-bold mb-4">01</div>
-              <h3 class="text-lg font-bold text-slate-900 mb-2">Missão</h3>
-              <p class="text-sm text-slate-600">Disponibilizar softwares estáveis e acessíveis que agreguem previsibilidade e precisão operacional para nossos clientes.</p>
-            </div>
-
-            <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-300 transition-colors">
-              <div class="w-10 h-10 rounded-lg bg-cyan-100 text-cyan-700 flex items-center justify-center font-bold mb-4">02</div>
-              <h3 class="text-lg font-bold text-slate-900 mb-2">Visão</h3>
-              <p class="text-sm text-slate-600">Permanecer como uma referência de seriedade, ética técnica e suporte pontual no setor de licenciamento de software nacional.</p>
-            </div>
-
-            <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-300 transition-colors sm:col-span-2">
-              <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold mb-4">03</div>
-              <h3 class="text-lg font-bold text-slate-900 mb-2">Valores</h3>
-              <p class="text-sm text-slate-600">Transparência comercial, segurança de dados, respeito irrestrito a prazos e foco contínuo na satisfação e produtividade dos usuários.</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ==================== SERVIÇOS ==================== -->
-    <section id="servicos" class="py-20 bg-slate-50 border-t border-slate-200">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="max-w-3xl mx-auto text-center mb-16">
-          <h2 class="text-xs font-bold text-brand-600 uppercase tracking-widest">Nossas Competências</h2>
-          <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">Soluções Especializadas em Software</p>
-          <div class="w-16 h-1 bg-brand-600 mx-auto mt-4 rounded-full"></div>
-          <p class="text-slate-600 mt-4 text-sm sm:text-base">Foco no desenvolvimento, distribuição licenciada e sustentação técnica contínua.</p>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-8">
-          
-          <!-- Card 1 -->
-          <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
-            <div>
-              <div class="w-14 h-14 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center mb-6">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-              </div>
-              <h3 class="text-xl font-bold text-slate-900 mb-3">Licenciamento de Programas Não-Customizáveis</h3>
-              <p class="text-slate-600 text-sm leading-relaxed mb-4">
-                Soluções de software padronizadas (off-the-shelf), testadas para máxima performance e rápida implementação, com redução expressiva do tempo de adesão e curva de aprendizagem.
-              </p>
-            </div>
-            <ul class="text-xs text-slate-500 space-y-2 pt-4 border-t border-slate-100">
-              <li class="flex items-center gap-2">✓ Disponibilidade imediata</li>
-              <li class="flex items-center gap-2">✓ Baixo custo de aquisição e escala</li>
-            </ul>
-          </div>
-
-          <!-- Card 2 -->
-          <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
-            <div>
-              <div class="w-14 h-14 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center mb-6">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
-              </div>
-              <h3 class="text-xl font-bold text-slate-900 mb-3">Desenvolvimento de Aplicações Corporativas</h3>
-              <p class="text-slate-600 text-sm leading-relaxed mb-4">
-                Engenharia de software focada em segurança e processamento ágil. Aplicações desenhadas para lidar com altos volumes de registros empresariais com consistência.
-              </p>
-            </div>
-            <ul class="text-xs text-slate-500 space-y-2 pt-4 border-t border-slate-100">
-              <li class="flex items-center gap-2">✓ Arquitetura modular resiliente</li>
-              <li class="flex items-center gap-2">✓ Atualizações contínuas de compatibilidade</li>
-            </ul>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
-            <div>
-              <div class="w-14 h-14 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center mb-6">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-              <h3 class="text-xl font-bold text-slate-900 mb-3">Suporte Técnico e Manutenção de Sistemas</h3>
-              <p class="text-slate-600 text-sm leading-relaxed mb-4">
-                Acompanhamento pós-licença com suporte técnico especializado, garantia de conformidade com normas regulatórias e patches de correção preventiva.
-              </p>
-            </div>
-            <ul class="text-xs text-slate-500 space-y-2 pt-4 border-t border-slate-100">
-              <li class="flex items-center gap-2">✓ Atendimento consultivo especializado</li>
-              <li class="flex items-center gap-2">✓ SLA transparente e suporte confiável</li>
-            </ul>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ==================== POLÍTICAS DE PRIVACIDADE ==================== -->
-    <section id="privacidade" class="py-20 bg-white border-t border-slate-200">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="text-center mb-12">
-          <h2 class="text-xs font-bold text-brand-600 uppercase tracking-widest">Segurança & Conformidade</h2>
-          <p class="text-3xl font-extrabold text-slate-900 mt-2">Políticas de Privacidade e Proteção de Dados</p>
-          <div class="w-16 h-1 bg-brand-600 mx-auto mt-4 rounded-full"></div>
-          <p class="text-slate-600 mt-3 text-sm">Compromisso rigoroso com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).</p>
-        </div>
-
-        <div class="bg-slate-50 rounded-2xl border border-slate-200 p-6 sm:p-8 space-y-6">
-          <div>
-            <h3 class="text-base font-bold text-slate-900 mb-2">1. Coleta e Uso de Dados</h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              A <strong>PONTEWARE INFORMÁTICA LTDA - ME</strong> coleta exclusivamente dados estritamente necessários para viabilizar contatos comerciais, emissão de contratos de licenciamento e faturamento de nossos serviços de software. Não comercializamos nem compartilhamos informações de identificação com terceiros para fins de marketing.
-            </p>
-          </div>
-
-          <div>
-            <h3 class="text-base font-bold text-slate-900 mb-2">2. Segurança da Informação</h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              Adotamos práticas técnicas e organizacionais de segurança para proteger os dados armazenados contra acessos não autorizados, incidentes acidentais ou ilícitos de destruição, perda ou alteração. Nossos fluxos seguem padrões reconhecidos de integridade e confidencialidade.
-            </p>
-          </div>
-
-          <div>
-            <h3 class="text-base font-bold text-slate-900 mb-2">3. Direitos dos Titulares</h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              Em estrita conformidade com a LGPD, garantimos aos titulares o direito de confirmação de existência de tratamento, acesso, correção de dados incompletos ou inexatos, anonimização ou exclusão de dados pessoais quando cabível mediante requisição formal.
-            </p>
-          </div>
-
-          <div>
-            <h3 class="text-base font-bold text-slate-900 mb-2">4. Encarregado pelo Tratamento de Dados (DPO)</h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              Para esclarecer dúvidas sobre esta política ou exercer seus direitos de titular, utilize o canal de comunicação institucional disponível através do nosso formulário de contato ou envie solicitação à nossa sede em Belo Horizonte - MG.
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ==================== FORMULÁRIO DE CONTATO ==================== -->
-    <section id="contato" class="py-20 bg-slate-50 border-t border-slate-200">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="text-center mb-12">
-          <h2 class="text-xs font-bold text-brand-600 uppercase tracking-widest">Atendimento</h2>
-          <p class="text-3xl font-extrabold text-slate-900 mt-2">Entre em Contato Conosco</p>
-          <div class="w-16 h-1 bg-brand-600 mx-auto mt-4 rounded-full"></div>
-          <p class="text-slate-600 mt-3 text-sm">Fale com nossa equipe técnica ou solicite uma proposta de licenciamento.</p>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-10">
-          <form id="contact-form" class="space-y-6">
-            <div class="grid sm:grid-cols-2 gap-6">
-              <div>
-                <label for="name" class="block text-xs font-semibold text-slate-700 uppercase mb-2">Nome Completo</label>
-                <input type="text" id="name" required placeholder="Seu nome ou da empresa" 
-                  class="w-full px-4 py-3 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all">
-              </div>
-
-              <div>
-                <label for="email" class="block text-xs font-semibold text-slate-700 uppercase mb-2">E-mail Profissional</label>
-                <input type="email" id="email" required placeholder="exemplo@empresa.com.br" 
-                  class="w-full px-4 py-3 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all">
-              </div>
-            </div>
-
-            <div class="grid sm:grid-cols-2 gap-6">
-              <div>
-                <label for="phone" class="block text-xs font-semibold text-slate-700 uppercase mb-2">Telefone / WhatsApp</label>
-                <input type="tel" id="phone" placeholder="(31) 90000-0000" 
-                  class="w-full px-4 py-3 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all">
-              </div>
-
-              <div>
-                <label for="subject" class="block text-xs font-semibold text-slate-700 uppercase mb-2">Assunto de Interesse</label>
-                <select id="subject" class="w-full px-4 py-3 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all bg-white">
-                  <option value="licenciamento">Licenciamento de Software</option>
-                  <option value="desenvolvimento">Desenvolvimento de Sistemas</option>
-                  <option value="suporte">Suporte Técnico / Dúvidas</option>
-                  <option value="privacidade">Privacidade e Dados (LGPD)</option>
-                  <option value="outro">Outro Assunto</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label for="message" class="block text-xs font-semibold text-slate-700 uppercase mb-2">Mensagem</label>
-              <textarea id="message" rows="4" required placeholder="Como podemos ajudar a sua empresa?" 
-                class="w-full px-4 py-3 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all"></textarea>
-            </div>
-
-            <div class="flex items-center gap-3">
-              <input type="checkbox" id="privacy-check" required class="rounded border-slate-300 text-brand-600 focus:ring-brand-500">
-              <label for="privacy-check" class="text-xs text-slate-500">
-                Concordo com o tratamento dos dados fornecidos estritamente para retorno deste contato comercial.
-              </label>
-            </div>
-
-            <button type="submit" class="w-full py-3.5 px-6 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
-              <span>Enviar Mensagem</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-            </button>
-          </form>
-
-          <!-- Feedback notification container -->
-          <div id="form-feedback" class="hidden mt-4 p-4 rounded-lg text-sm text-center"></div>
-        </div>
-
-      </div>
-    </section>
-  </main>
-
-  <!-- ==================== FOOTER ==================== -->
-  <footer class="bg-slate-900 text-slate-400 text-sm border-t border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-        
-        <!-- Coluna 1: Identidade da Empresa -->
-        <div class="space-y-4">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-lg bg-brand-600 flex items-center justify-center text-white font-bold">
-              PW
-            </div>
-            <div>
-              <p class="font-extrabold text-white text-base leading-none">PONTEWARE SOFTWARE</p>
-              <p class="text-xs text-brand-400 mt-0.5">Soluções Corporativas</p>
-            </div>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Desenvolvimento e licenciamento de programas de computador não-customizáveis com tradição de mercado desde 1994.
-          </p>
-          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-slate-800 text-xs text-emerald-400 border border-slate-700">
-            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            Situação Cadastral: ATIVA
-          </div>
-        </div>
-
-        <!-- Coluna 2: Dados Fiscais / Razão Social -->
-        <div class="space-y-3">
-          <h4 class="text-white font-semibold text-xs tracking-wider uppercase">Identificação Cadastral</h4>
-          <ul class="space-y-2 text-xs">
-            <li>
-              <span class="text-slate-500 block">Razão Social:</span>
-              <span class="text-slate-200 font-medium">PONTEWARE INFORMATICA LTDA - ME</span>
-            </li>
-            <li>
-              <span class="text-slate-500 block">Nome Fantasia:</span>
-              <span class="text-slate-200 font-medium">PONTEWARE SOFTWARE</span>
-            </li>
-            <li>
-              <span class="text-slate-500 block">CNPJ:</span>
-              <span class="text-slate-200 font-mono font-medium">00.243.582/0001-37</span>
-            </li>
-            <li>
-              <span class="text-slate-500 block">Fundação:</span>
-              <span class="text-slate-200">13/10/1994</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Coluna 3: Endereço da Sede -->
-        <div class="space-y-3">
-          <h4 class="text-white font-semibold text-xs tracking-wider uppercase">Endereço da Sede</h4>
-          <address class="not-italic text-xs text-slate-300 space-y-1 leading-relaxed">
-            <p class="font-semibold text-white">AV DOS ANDRADAS, 2287</p>
-            <p>SALA 904</p>
-            <p>SANTA EFIGENIA</p>
-            <p>BELO HORIZONTE - MG</p>
-            <p class="font-mono text-brand-300">CEP: 30120-016</p>
-            <p class="text-slate-400">Brasil</p>
-          </address>
-        </div>
-
-        <!-- Coluna 4: Navegação Rápida -->
-        <div class="space-y-3">
-          <h4 class="text-white font-semibold text-xs tracking-wider uppercase">Links Rápidos</h4>
-          <ul class="space-y-2 text-xs">
-            <li><a href="#inicio" class="hover:text-brand-400 transition-colors">Início</a></li>
-            <li><a href="#quem-somos" class="hover:text-brand-400 transition-colors">Quem Somos</a></li>
-            <li><a href="#servicos" class="hover:text-brand-400 transition-colors">Serviços Oferecidos</a></li>
-            <li><a href="#privacidade" class="hover:text-brand-400 transition-colors">Políticas de Privacidade</a></li>
-            <li><a href="#contato" class="hover:text-brand-400 transition-colors">Fale Conosco</a></li>
-          </ul>
-        </div>
-
-      </div>
-
-      <!-- Linha final de Direitos Reservados -->
-      <div class="mt-12 pt-8 border-t border-slate-800 text-center sm:flex sm:justify-between sm:items-center text-xs text-slate-500">
-        <p>© 1994 - <span id="current-year"></span> PONTEWARE INFORMATICA LTDA - ME. Todos os direitos reservados.</p>
-        <p class="mt-2 sm:mt-0">Desenvolvimento e Licenciamento de Softwares • Belo Horizonte/MG</p>
-      </div>
-
-    </div>
-  </footer>
-
-  <!-- ==================== JAVASCRIPT ==================== -->
-  <script>
-    // Dinamic Year for copyright
-    document.getElementById('current-year').textContent = new Date().getFullYear();
-
-    // Mobile menu toggle logic
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    menuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    // Close mobile menu upon clicking links
-    document.querySelectorAll('#mobile-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-      });
-    });
-
-    // Contact form submission feedback simulation
-    const form = document.getElementById('contact-form');
-    const feedback = document.getElementById('form-feedback');
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const nameInput = document.getElementById('name').value;
-
-      // Provide responsive and elegant in-page confirmation
-      feedback.className = "mt-4 p-4 rounded-lg text-sm text-center bg-emerald-50 text-emerald-800 border border-emerald-200 block";
-      feedback.textContent = `Obrigado pelo contato, ${nameInput}! Sua mensagem foi registrada com sucesso. Nossa equipe entrará em contato em breve.`;
-      
-      form.reset();
-
-      // Clear notification after 6 seconds
-      setTimeout(() => {
-        feedback.className = "hidden mt-4 p-4 rounded-lg text-sm text-center";
-      }, 6000);
-    });
-  </script>
+                        window.scrollTo({
+                             top: offsetPosition,
+                             behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
+
 </html>
+
+
+
+
